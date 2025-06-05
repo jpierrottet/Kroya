@@ -1,0 +1,44 @@
+﻿@page "/"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@layout PanelMenuLayout
+
+<div class="admin-sidebar-column">
+    <RadzenMenu Click="@(args => NavigateTo(args.Path))">
+        <RadzenMenuItem Text="Inicio" Path="/" Icon="home" />
+        <RadzenMenuItem Text="Administración KROYA" Path="/Administracion/MenuPostres" Icon="admin_panel_settings" />
+        <RadzenMenuItem Text="Nuestros Postres" Path="/MenuPrincipal" Icon="cake" />
+        <RadzenMenuItem Text="Haz tu Pedido" Path="/pedidos" Icon="shopping_cart" />
+        <RadzenMenuItem Text="Contáctanos" Path="/contacto" Icon="email" />
+    </RadzenMenu>
+</div>
+
+
+
+
+
+<div class="simple-landing-container">
+    <div class="content-wrapper">
+        <h1 class="brand-name">KROYA</h1>
+        <p class="slogan">Donde el Horno, Enciende Memorias</p>
+    </div>
+    <div class="background-shapes">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+@code {
+    private void NavigateTo(string path)
+    {
+        if (!string.IsNullOrEmpty(path))
+        {
+            Navigation.NavigateTo(path);
+        }
+    }
+}

@@ -1,0 +1,192 @@
+﻿
+
+.dessert-theme .main-layout-container {
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap; /* Considera si realmente necesitas wrap aquí para un layout de sidebar */
+    background-color: var(--cream-background); /* CAMBIADO */
+}
+
+.dessert-theme .collapsible-sidebar.styled-sidebar {
+    width: 42px;
+    background-color: var(--purple-primary); /* CAMBIADO */
+    color: var(--purple-text-light); /* CAMBIADO */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 3px 0px 10px rgba(0, 0, 0, 0.15);
+    padding-top: 1rem;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1.5);
+    overflow: hidden;
+    position: relative;
+    z-index: 1000;
+    flex-shrink: 0; /* Buena práctica añadirlo para sidebars en flexbox */
+}
+
+    .dessert-theme .collapsible-sidebar.styled-sidebar:hover {
+        width: 260px;
+    }
+
+.dessert-theme .collapsible-sidebar .sidebar-header {
+    padding: 0.5rem 0;
+    text-align: center;
+    /* El borde inferior puede usar un alfa del color de texto claro o un secundario muy sutil */
+    border-bottom: 1px solid rgba(216, 208, 224, 0.1); /* Usando alfa de --purple-text-light */
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: padding 0.3s ease;
+}
+
+.dessert-theme .collapsible-sidebar:hover .sidebar-header {
+    padding: 0.5rem 1.5rem 1rem 1.5rem;
+}
+
+/* Logo and Brand Text Adjustments (asumimos que el texto usará --purple-text-light) */
+.dessert-theme .collapsible-sidebar .sidebar-brand-link { /* ... */
+}
+
+.dessert-theme .collapsible-sidebar .sidebar-logo-expanded { /* ... */
+}
+
+.dessert-theme .collapsible-sidebar .sidebar-logo-collapsed { /* ... */
+}
+
+.dessert-theme .collapsible-sidebar:hover .sidebar-logo-expanded { /* ... */
+}
+
+.dessert-theme .collapsible-sidebar:hover .sidebar-logo-collapsed { /* ... */
+}
+
+.dessert-theme .collapsible-sidebar .sidebar-brand-text.rz-text {
+    color: var(--purple-text-light); /* CAMBIADO (asegurando que use la variable) */
+}
+
+.dessert-theme .collapsible-sidebar:hover .sidebar-brand-text.rz-text { /* ... */
+}
+
+.dessert-theme .collapsible-sidebar .styled-panel-menu.rz-panel-menu {
+    background: none;
+    border: none;
+    flex-grow: 1;
+    width: 100%;
+    overflow-y: auto;
+    max-height: calc(100vh - 120px); 
+}
+
+/* Estilos para los items del menú cuando la sidebar está colapsada */
+.dessert-theme .collapsible-sidebar:not(:hover) ul.rz-panel-menu-items > li.rz-navigation-item > a.rz-navigation-item-link {
+    padding: 0;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    overflow: hidden;
+    border-left-color: transparent;
+    text-decoration: none;
+    display: flex;
+    background-color: transparent;
+    color: var(--purple-text-light); /* CAMBIADO */
+    transition: background-color 0.2s ease;
+}
+
+    .dessert-theme .collapsible-sidebar:not(:hover) ul.rz-panel-menu-items > li.rz-navigation-item > a.rz-navigation-item-link > i.rz-navigation-item-icon.rz-icon-font {
+        color: var(--purple-text-light); /* CAMBIADO */
+        margin: 0;
+        font-size: 1.5em;
+        line-height: 50px;
+        display: block;
+        text-align: center;
+        width: 100%;
+        transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .dessert-theme .collapsible-sidebar:not(:hover) ul.rz-panel-menu-items > li.rz-navigation-item > a.rz-navigation-item-link:hover {
+        background-color: rgba(216, 208, 224, 0.08); /* Usando alfa de --purple-text-light para el hover sutil */
+    }
+
+        .dessert-theme .collapsible-sidebar:not(:hover) ul.rz-panel-menu-items > li.rz-navigation-item > a.rz-navigation-item-link:hover > i.rz-navigation-item-icon.rz-icon-font {
+            transform: scale(1.1);
+            color: var(--purple-accent); /* CAMBIADO */
+        }
+
+/* Estilos para los items del menú cuando la sidebar está expandida (hover) */
+.dessert-theme .collapsible-sidebar:hover ul.rz-panel-menu-items > li.rz-navigation-item > a.rz-navigation-item-link {
+    padding: 12px 20px 12px 24px;
+    justify-content: flex-start;
+    height: 50px;
+    overflow: visible;
+    border-left: 4px solid transparent;
+    color: var(--purple-text-light); /* CAMBIADO (asegurando que use la variable) */
+    transition: background-color 0.2s ease, border-left-color 0.2s ease, padding-left 0.3s ease, color 0.2s ease;
+}
+
+    .dessert-theme .collapsible-sidebar:hover ul.rz-panel-menu-items > li.rz-navigation-item > a.rz-navigation-item-link > i.rz-navigation-item-icon.rz-icon-font {
+        color: var(--purple-text-light); /* CAMBIADO */
+        margin-right: 12px;
+        font-size: 1.2em;
+        transform: scale(1); /* Reset transform from collapsed state */
+        line-height: inherit;
+        width: auto;
+        text-align: left;
+        transition: font-size 0.3s ease, margin-right 0.3s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .dessert-theme .collapsible-sidebar:hover ul.rz-panel-menu-items > li.rz-navigation-item > a.rz-navigation-item-link > span.rz-navigation-item-text {
+        display: inline-block;
+        opacity: 1;
+        visibility: visible;
+        white-space: nowrap;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--purple-text-light); 
+        font-size: inherit;
+        line-height: inherit;
+        transition: opacity 0.2s ease-out 0s, visibility 0s linear 0s, transform 0.2s ease-out 0.1s;
+    }
+
+ 
+    .dessert-theme .collapsible-sidebar:hover ul.rz-panel-menu-items > li.rz-navigation-item > a.rz-navigation-item-link:hover {
+        background-color: rgba(216, 208, 224, 0.1); 
+        border-left-color: var(--purple-accent); 
+        padding-left: 28px;
+        transform: translateX(2px);
+    }
+
+    /* Item activo en sidebar expandida */
+    .dessert-theme .collapsible-sidebar:hover ul.rz-panel-menu-items > li.rz-navigation-item.rz-navigation-item-active > a.rz-navigation-item-link,
+    .dessert-theme .collapsible-sidebar:hover ul.rz-panel-menu-items > li.rz-navigation-item > a.rz-navigation-item-link.rz-state-active {
+        background-color: var(--purple-accent); 
+        border-left-color: var(--purple-secondary);
+        color: var(--purple-text-light);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding-left: 28px;
+        font-weight: 600;
+    }
+
+
+@media (max-width: 768px) {
+    .dessert-theme .collapsible-sidebar.styled-sidebar {
+        width: 260px; 
+        position: fixed;
+        height: 100vh;
+       
+    }
+
+    .dessert-theme .main-content {
+        padding-left: 260px; 
+       
+    }
+}
+
+.dessert-theme .main-content {
+    padding: 2rem; 
+    background-color: var(--cream-background); 
+    overflow-y: auto;
+    min-height: 100vh;
+    flex-grow: 1;
+    display: flex; 
+    flex-direction: column;
+}

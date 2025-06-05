@@ -1,0 +1,66 @@
+﻿@page "/MenuPrincipal"
+@layout PanelMenuLayout
+@using BlazorProyectoPostres.Data
+@using BlazorProyectoPostres.Constantes
+@using BlazorProyectoPostres.Models.DatabaseModels
+
+<div class="menu-kroya-container">
+    <div class="menu-kroya-header">
+        <h1>Nuestros Postres</h1>
+        <RadzenIcon Icon="cookie" class="menu-title-icon" />
+    </div>
+
+    @if (MenusActivos == null || !MenusActivos.Any())
+    {
+        <div class="no-menus-message">
+            <RadzenIcon Icon="sentiment_very_dissatisfied" />
+            <p>Nuestro horno está calentando... ¡Pronto tendremos delicias listas para ti!</p>
+            <p>Vuelve a visitarnos en un momento.</p>
+        </div>
+    }
+    else
+    {
+        <div class="menu-kroya-grid">
+            @foreach (var menu in MenusActivos)
+            {
+                <div class="menu-item-card clickable @(menu == selectedMenu ? "selected" : "")" @onclick="() => SelectMenu(menu)">
+                    <div class="menu-item-image-wrapper">
+                        @if (menu.Imagenes != null && menu.Imagenes.Any() && menu.Imagenes.First() != null)
+                        {
+                            var imageBase64 = Convert.ToBase64String(menu.Imagenes.First());
+                            var imageSrc = $"data:image/png;base64,{imageBase64}";
+                            <img src="@imageSrc" alt="Imagen de @menu.NombreMenu" class="menu-item-image" />
+                        }
+                        else
+                        {
+                            <div class="menu-item-placeholder-image">
+                                <span>Delicia sin foto</span>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="menu-item-content">
+                        <h3 class="menu-item-name">@menu.NombreMenu</h3>
+                        <p class="menu-item-description">@menu.Descripcion</p>
+                    </div>
+
+                    @if (menu == selectedMenu && menu.Porciones != null && menu.Porciones.Any())
+                    {
+                        <div class="menu-item-portions">
+                            <h4>Porciones:</h4>
+                            <ul>
+                                @foreach (var porcion in menu.Porciones)
+                                {
+                                    <li>
+                                        <span>@porcion.POR_NOMBRE (@porcion.POR_CANTIDAD)</span>
+                                        <span class="portion-price">$@porcion.POR_PRECIO?.ToString("N2")</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

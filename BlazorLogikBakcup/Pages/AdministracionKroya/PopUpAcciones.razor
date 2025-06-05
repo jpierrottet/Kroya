@@ -1,0 +1,67 @@
+﻿@using BlazorProyectoPostres.Models.DatabaseModels
+@inject Radzen.DialogService DialogService
+@inject NavigationManager NavigationManager
+
+<RadzenStack Gap="1rem" Style="padding: 1rem;">
+
+    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H3" class="rz-text-align-center">
+        Acciones para: <strong>@MenuAEditar.MEN_NOMBRE</strong>
+    </RadzenText>
+
+
+
+    <RadzenCard class="action-card" @onclick="() => IrAAsignarPorciones()">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem">
+            <RadzenIcon Icon="pie_chart" Style="font-size: 2.5rem; color: var(--rz-info);" />
+            <RadzenStack Gap="0">
+                <RadzenText TextStyle="TextStyle.Subtitle1">Asignar Porciones</RadzenText>
+                <RadzenText TextStyle="TextStyle.Caption">Define las porciones disponibles para este postre.</RadzenText>
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenCard>
+
+
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" class="mt-3">
+        <RadzenButton Text="Cerrar" ButtonStyle="ButtonStyle.Light" Click="() => DialogService.Close()" />
+    </RadzenStack>
+
+</RadzenStack>
+
+<style>
+    .action-card {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+
+@code {
+    [Parameter]
+    public MENU MenuAEditar { get; set; } = new();
+
+
+
+    private async Task IrAAsignarPorciones()
+    {
+        var parameters = new Dictionary<string, object>();
+
+        parameters.Add("idMenu", MenuAEditar.MEN_ID);
+        var AbrirPopUpPorciones = await DialogService.OpenAsync<PopUpPorciones>(
+                  "Acciones Postre",
+              parameters,
+                  new DialogOptions { Width = "700px", Height = "auto", Resizable = true, Draggable = true, CloseDialogOnEsc = true }
+              );
+
+
+    }
+
+    private void OtraAccion()
+    {
+    
+        DialogService.Close();
+    }
+}

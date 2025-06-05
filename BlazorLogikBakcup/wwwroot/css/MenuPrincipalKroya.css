@@ -1,0 +1,178 @@
+﻿body, html {
+    height: auto;
+    overflow-y: auto;
+}
+
+.menu-kroya-container {
+    background-color: var(--cream-background);
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.menu-kroya-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+    .menu-kroya-header h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--purple-deep);
+        letter-spacing: 0.5px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+.menu-kroya-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.menu-item-card {
+    background-color: var(--purple-text-light);
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(58, 47, 110, 0.12);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.35s ease; /* Añadida transición para borde */
+    border: 2px solid var(--purple-secondary); /* Borde inicial */
+    cursor: pointer; /* <-- AÑADIDO: Indica que es clickeable */
+}
+
+    .menu-item-card:hover {
+        transform: translateY(-12px); /* Mantenemos el hover original */
+        box-shadow: 0 18px 35px rgba(58, 47, 110, 0.2);
+    }
+
+.menu-item-image-wrapper {
+    height: 240px;
+    overflow: hidden;
+    background-color: var(--purple-secondary);
+}
+
+.menu-item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease-out;
+}
+
+.menu-item-card:hover .menu-item-image {
+    transform: scale(1.12);
+}
+
+.menu-item-placeholder-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--purple-primary);
+    font-style: italic;
+}
+
+.menu-item-content {
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.menu-item-name {
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--purple-deep);
+    margin-bottom: 0.6rem;
+}
+
+.menu-item-description {
+    font-size: 0.95rem;
+    color: var(--purple-primary);
+    line-height: 1.65;
+    margin-bottom: 1.2rem;
+    flex-grow: 1;
+}
+
+.no-menus-message {
+    text-align: center;
+    padding: 4rem 1rem;
+    font-size: 1.3rem;
+    color: var(--purple-primary);
+}
+
+    .no-menus-message i {
+        font-size: 3rem;
+        display: block;
+        margin-bottom: 1rem;
+        color: var(--purple-secondary);
+    }
+
+/* --- ESTILOS PARA SELECCIÓN Y PORCIONES (LIMPIOS) --- */
+
+.menu-item-card.selected {
+    border: 3px solid var(--purple-accent); /* Borde más visible al seleccionar */
+    box-shadow: 0 18px 35px rgba(58, 47, 110, 0.25);
+    transform: translateY(-5px); /* Un leve levantamiento al seleccionar */
+}
+
+.menu-item-portions {
+    padding: 15px 20px;
+    margin-top: 10px;
+    background-color: #ffffff; /* Fondo más claro para contraste */
+    border-top: 1px solid var(--purple-secondary);
+    animation: fadeIn 0.4s ease-out;
+    border-radius: 0 0 15px 15px; /* Redondea esquinas inferiores */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.menu-item-portions h4 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.2em;
+    color: var(--purple-deep);
+    font-weight: 600;
+    text-align: left; /* Asegura alineación */
+}
+
+.menu-item-portions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item-portions li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px; /* Ajusta padding */
+    border-bottom: 1px dotted var(--purple-secondary);
+    font-size: 0.95em;
+    color: var(--purple-primary);
+}
+
+    .menu-item-portions li:last-child {
+        border-bottom: none;
+    }
+
+.menu-item-portions .portion-price {
+    font-weight: 700;
+    color: var(--purple-accent);
+    font-size: 1.1em;
+    background-color: var(--purple-text-light);
+    padding: 4px 10px; /* Ajusta padding */
+    border-radius: 8px; /* Más redondeado */
+    white-space: nowrap; /* Evita que el precio se parta */
+    margin-left: 10px; /* Espacio a la izquierda */
+}

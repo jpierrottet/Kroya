@@ -1,0 +1,77 @@
+﻿@page "/Administracion/MenuPostres"
+@layout PanelMenuLayout
+@using BlazorProyectoPostres.Data
+@using BlazorProyectoPostres.Constantes
+@using BlazorProyectoPostres.Models.DatabaseModels
+
+<div class="admin-sidebar-column">
+    <BarraLateralMenuAdministracion />
+</div>
+
+<div class="page-content-area" style="flex-grow: 1;
+            background-color: var(--dessert-background);
+            max-width: 1500px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;">
+    
+    <RadzenText Text="Administración del Menú" TextStyle="TextStyle.H3" TagName="TagName.H1" class="my-4" />
+   
+    <RadzenButton Icon="add_circle" Text="Añadir Nuevo Ítem" ButtonStyle="ButtonStyle.Primary" class="mb-4"
+                  Click="@(args => AbrirPopup())" />
+
+
+    <RadzenDataGrid @ref="grid" Data="@ListaMenus" TItem="MENU" EditMode="DataGridEditMode.Multiple" RowCreate="@OnRowCreatePlaceholder" RowEdit="@OnRowEditPlaceholder" RowUpdate="@OnRowUpdate">
+        <Columns>
+
+            <RadzenDataGridColumn TItem="MENU" Property="MEN_ID" Title="Id" />
+            <RadzenDataGridColumn TItem="MENU" Property="MEN_NOMBRE" Title="Nombre">
+
+                <EditTemplate Context="menuItem">
+                    <RadzenTextBox @bind-Value="menuItem.MEN_NOMBRE" Style="width:100%" Name="MenNombre" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="MENU" Property="MEN_DESCRIPCION" Title="Descripcion">
+                <EditTemplate Context="menuItem">
+                    <RadzenTextBox @bind-Value="menuItem.MEN_DESCRIPCION" Style="width:100%" Name="MenDescripcion" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="MENU" Property="MEN_PRECIO" Title="Precio">
+                <EditTemplate Context="menuItem">
+                    <RadzenNumeric TValue="decimal?" @bind-Value="menuItem.MEN_PRECIO" Name="MEN_PRECIO"  Style="width: 100%;" ShowUpDown="false" Format="0.00" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+
+            <RadzenDataGridColumn TItem="MENU" Context="menuItemContext" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="150px" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
+                <Template Context="menuItemContext">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Small" Class="me-1"
+                                  Click="@(args => AbrirPopupEdicion(menuItemContext))" @onclick:stopPropagation="true" />
+                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Class="ms-1"
+                                  Click="@(args => DeleteRow(menuItemContext))" @onclick:stopPropagation="true" />
+                </Template>
+
+
+            </RadzenDataGridColumn>
+
+
+            <RadzenDataGridColumn TItem="MENU" Context="menuItemContext" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="150px" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
+                <Template Context="menuItemContext">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Info" Text="Acciones" Size="ButtonSize.Small" Class="me-1"
+                                  Click="@(args => AbrirPopUpAcciones(menuItemContext))" @onclick:stopPropagation="true" />
+                   
+                </Template>
+
+
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+    </div>
+
+
+
+

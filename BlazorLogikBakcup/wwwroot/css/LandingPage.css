@@ -1,0 +1,178 @@
+﻿
+
+:root {
+    --purple-primary: #7F6D95;
+    --purple-secondary: #C4B8D5;
+    --purple-accent: #A57FA5;
+    --purple-text-dark: #3A2F6E;
+    --purple-text-light: #FFFFFF; 
+    --cream-background: #e9e9e7;
+    --purple-deep: #432F5A;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+    line-height: 0;
+}
+
+body {
+    display: block;
+    min-height: 100vh;
+    background: #e9e9e7 !important; 
+    background-size: 100% 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.simple-landing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 0;
+    left: 3vw;
+    text-align: center;
+    color: #e9e9e7;
+    z-index: 2;
+    border: none;
+}
+
+.content-wrapper {
+    padding: 20px;
+}
+
+.brand-name {
+    font-family: 'Tan Mon Cheri', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 500;
+    color: #aa88c0;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards;
+}
+
+.slogan {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: #7e5a8a;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out 0.3s forwards;
+}
+
+.coming-soon {
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(233, 233, 231, 0.85);
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out 0.6s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.background-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+    .background-shapes span {
+        position: absolute;
+        display: block;
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+        animation: float 20s ease-in-out infinite;
+        left: 20%;
+        top: 20%;
+    }
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.05;
+    }
+
+    50% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0.1;
+    }
+}
+
+footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100vw;
+    left: 3vw;
+    text-align: center;
+    color: #4a2c5a;
+    font-size: 0.8rem;
+    z-index: 3;
+    border: none;
+    line-height: normal;
+}
+
+@media (max-width: 768px) {
+    .brand-name {
+        font-size: 3.5rem;
+    }
+
+    .slogan {
+        font-size: 1.2rem;
+    }
+
+    .coming-soon {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-name {
+        font-size: 2.8rem;
+    }
+
+    .slogan {
+        font-size: 1rem;
+    }
+
+    .coming-soon {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+

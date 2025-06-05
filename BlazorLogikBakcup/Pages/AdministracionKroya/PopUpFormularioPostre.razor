@@ -1,0 +1,236 @@
+﻿@using BlazorProyectoPostres.Models.DatabaseModels
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+@inject BlazorProyectoPostres.Data.PostresService ServicioPostre
+@using BlazorProyectoPostres.Clases
+
+<RadzenCard Style="padding: 20px; width:600px; max-width: 800px; margin: 2rem auto; background-color: var(--cream-background); border: 1px solid var(--purple-primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+    <RadzenText Text="Registrar Nuevo Ítem del Menú" TextStyle="TextStyle.H5" TagName="TagName.H2" Class="mb-4 text-center" Style="color: var(--purple-text-dark);" />
+
+    <RadzenTemplateForm TItem="MENU" Data="@menuItem" Submit="@((args) => GuardarMenu())">
+        <RadzenStack Gap="1.5rem">
+
+            <RadzenText Text="Detalles del Ítem" TextStyle="TextStyle.Subtitle1" Class="mb-2" Style="font-weight: bold; color: var(--purple-text-dark);" />
+
+
+            <RadzenStack Gap="1rem">
+                <div>
+                    <RadzenLabel Text="Nombre del Ítem" Component="MEN_NOMBRE" Style="font-weight: bold; color: var(--purple-text-dark); margin-bottom: 0.70rem; display: block;" />
+                    <RadzenTextBox @bind-Value="menuItem.MEN_NOMBRE" Name="MEN_NOMBRE" Placeholder="Ej: Torta de Chocolate" Style="width: 100%;" />
+                    <RadzenRequiredValidator Component="MEN_NOMBRE" Text="El nombre es requerido" Popup="true" Style="position: relative;" />
+                </div>
+
+                <div>
+                    <RadzenLabel Text="Descripción del Ítem" Component="MEN_DESCRIPCION" Style="font-weight: bold; color: var(--purple-text-dark); margin-bottom: 0.70rem; display: block;" />
+                    <RadzenTextArea @bind-Value="menuItem.MEN_DESCRIPCION" Name="MEN_DESCRIPCION" Placeholder="Ej: Deliciosa torta de chocolate con cobertura de fudge y chispas." Style="width: 100%;" Rows="3" />
+                    <RadzenRequiredValidator Component="MEN_DESCRIPCION" Text="La descripción es requerida" Popup="true" Style="position: relative;" />
+                </div>
+                <div>
+                    <RadzenLabel Text="Precio" Component="MEN_PRECIO" Style="font-weight: bold; color: var(--purple-text-dark); margin-bottom: 0.70rem; display: block;" />
+                    <RadzenNumeric TValue="decimal?" @bind-Value="menuItem.MEN_PRECIO" Name="MEN_PRECIO" Placeholder="Ej: 2.50" Style="width: 100%;" ShowUpDown="false" Format="0.00" />
+
+                    <RadzenRequiredValidator Component="MEN_PRECIO" Text="El precio es requerido" Popup="true" Style="position: relative;" />
+                </div>
+                <div>
+                    <RadzenLabel Text="Imágenes del Ítem" Component="uploadImagenes" Style="font-weight: bold; color: var(--purple-text-dark); margin-bottom: 0.70rem; display: block;" />
+                    <RadzenUpload Multiple="true"
+                    Accept="image/*"
+                    Change="@OnFilesChanged"
+                    Style="width: 100%; min-height: 100px; border: 2px dashed var(--purple-primary); background-color: var(--rz-base-300);"
+                    ChooseText="Seleccionar Archivos"
+                    InputAttributes="@(new Dictionary<string,object>{ { "aria-label", "Cargar archivos" }})">
+
+                    </RadzenUpload>
+
+                    @if (ArchivosMenu.Any())
+                    {
+                        <div class="mt-3">
+                            <RadzenLabel Text="Archivos Seleccionados:" Component="archivosList" Style="display:block; margin-bottom:0.5rem; font-weight:bold; color: var(--rz-text-color);" />
+                            <div Style="max-height: 170px; overflow-y: auto; border: 1px solid var(--rz-border-color, #dee2e6); padding: 0.75rem; border-radius: var(--rz-border-radius, 4px); background-color: var(--rz-panel-background-color, #f8f9fa);">
+                                <RadzenStack Gap="0.5rem">
+                                    @foreach (var archivo in ArchivosMenu)
+                                    {
+                                        <RadzenCard Variant="Variant.Outlined" Style="padding: 0.6rem; margin-bottom:0.3rem;">
+                                            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="0.5rem">
+                                                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Style="flex-grow:1;">
+                                                    <RadzenIcon Icon="insert_drive_file" Style="color: var(--rz-secondary-color, #6c757d); font-size: 1.2rem;" />
+                                                    <RadzenText Text="@($"{archivo.ARC_NOMBRE}.{archivo.ARC_EXTENSION}")" Style="color: var(--rz-text-color); font-size: 0.9rem;" Title="@($"{archivo.ARC_NOMBRE}.{archivo.ARC_EXTENSION}")" />
+                                                </RadzenStack>
+                                                <RadzenText Text="@($"({(archivo.ARC_ARCHIVO?.Length ?? 0) / 1024} KB)")" TextStyle="TextStyle.Caption" Style="color: var(--rz-text-disabled-color, #adb5bd); margin-left: 0.5rem; white-space:nowrap;" />
+
+
+
+                                            </RadzenStack>
+                                        </RadzenCard>
+
+                                    }
+                                </RadzenStack>
+                            </div>
+                        </div>
+                    }
+
+                    @if (ArchivosExistentes.Any())
+                    {
+                        <div class="mt-3">
+                            <RadzenLabel Text="Archivos Existentes:" Component="archivosList" Style="display:block; margin-bottom:0.5rem; font-weight:bold; color: var(--rz-text-color);" />
+                            <div Style="max-height: 170px; overflow-y: auto; border: 1px solid var(--rz-border-color, #dee2e6); padding: 0.75rem; border-radius: var(--rz-border-radius, 4px); background-color: var(--rz-panel-background-color, #f8f9fa);">
+                                <RadzenStack Gap="0.5rem">
+                                    @foreach (var archivo in ArchivosExistentes)
+                                    {
+                                        <RadzenCard Variant="Variant.Outlined" Style="padding: 0.6rem; margin-bottom:0.3rem;">
+                                            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Gap="0.5rem">
+                                                <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Style="flex-grow:1;">
+                                                    <RadzenIcon Icon="insert_drive_file" Style="color: var(--rz-secondary-color, #6c757d); font-size: 1.2rem;" />
+                                                    <RadzenText Text="@($"{archivo.ARC_NOMBRE}.{archivo.ARC_EXTENSION}")" Style="color: var(--rz-text-color); font-size: 0.9rem;" Title="@($"{archivo.ARC_NOMBRE}.{archivo.ARC_EXTENSION}")" />
+                                                </RadzenStack>
+                                                <RadzenText Text="@($"({(archivo.ARC_ARCHIVO?.Length ?? 0) / 1024} KB)")" TextStyle="TextStyle.Caption" Style="color: var(--rz-text-disabled-color, #adb5bd); margin-left: 0.5rem; white-space:nowrap;" />
+
+                                                <RadzenButton Icon="delete_forever"
+                                                ButtonStyle="ButtonStyle.Danger"
+                                                Size="ButtonSize.Small"
+                                                Variant="Variant.Flat"
+                                                Shade="Shade.Lighter"
+                                                Click="@(() => EliminarArchivoExistente(archivo))"
+                                                title="Eliminar imagen guardada" />
+
+                                            </RadzenStack>
+                                        </RadzenCard>
+
+                                    }
+                                </RadzenStack>
+                            </div>
+                        </div>
+                    }
+
+                    <RadzenText Text="Sube una o más imágenes (máx 5MB por archivo). Tipos permitidos: JPG, PNG, GIF." TextStyle="TextStyle.Caption" Class="mt-1" Style="display: block; color: var(--rz-text-disabled-color);" />
+                </div>
+            </RadzenStack>
+
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="1rem" Class="mt-4">
+                <RadzenButton Text="Guardar Ítem" ButtonStyle="ButtonStyle.Primary" Type="submit" Icon="save"
+                Style="background-color: var(--purple-primary); color: var(--purple-text-light);" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenTemplateForm>
+</RadzenCard>
+
+@code {
+    private MENU menuItem = new MENU();
+    private List<ARCHIVO> ArchivosMenu = new List<ARCHIVO>();
+
+    private List<ARCHIVO> ArchivosExistentes = new List<ARCHIVO>();
+
+
+    [Parameter]
+    public MENU? MenuAEditar { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        if (MenuAEditar != null)
+        {
+            menuItem = MenuAEditar;
+            if (MenuAEditar.ARCHIVO_POSTREs.Any())
+            {
+
+                var idsArchivos = MenuAEditar.ARCHIVO_POSTREs.Select(a => a.ARP_ARCHIVO.Value).ToList();
+                ArchivosExistentes = await ServicioPostre.ObtenerArchivosPostre(idsArchivos);
+
+            }
+        }
+    }
+
+    private async Task EliminarArchivoExistente(ARCHIVO ArchivoEliminar)
+    {
+        try
+        {
+            await ServicioPostre.EliminarArchivoPostre(ArchivoEliminar);
+           
+            FuncionesGenerales.Notificacion(NotificationService, "El archivo fue eliminado",NotificationSeverity.Success);
+            ArchivosExistentes.Remove(ArchivoEliminar);
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            
+            FuncionesGenerales.Notificacion(NotificationService, "Archivo No Eliminado", NotificationSeverity.Error,e.Message);
+        }
+        
+        
+    }
+
+    private async Task OnFilesChanged(UploadChangeEventArgs args)
+    {
+        ArchivosMenu.Clear();
+
+        long maxAllowedFiles = 5;
+        long maxFileSize = 5 * 1024 * 1024;
+
+        var filesToProcess = args.Files.Take((int)maxAllowedFiles).ToList();
+
+        if (args.Files.Count() > maxAllowedFiles)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Warning, Summary = "Límite Excedido", Detail = $"Solo se procesarán los primeros {maxAllowedFiles} archivos de {args.Files.Count()} seleccionados.", Duration = 5000 });
+        }
+
+        foreach (var file in filesToProcess)
+        {
+            if (file.Size == 0) continue;
+
+            if (file.Size > maxFileSize)
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Archivo Demasiado Grande", Detail = $"El archivo '{file.Name}' excede el límite de {maxFileSize / (1024 * 1024)}MB y fue omitido.", Duration = 7000 });
+                continue;
+            }
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+            var fileExtension = Path.GetExtension(file.Name).ToLowerInvariant();
+            if (string.IsNullOrEmpty(fileExtension) || !allowedExtensions.Contains(fileExtension))
+            {
+
+                NotificationService.Notify(new NotificationMessage
+                    {
+                        Severity = NotificationSeverity.Error,
+                        Summary = "Tipo de Archivo Inválido",
+                        Detail = $"El archivo '{file.Name}' no es un tipo de imagen permitido y fue omitido.",
+                        Duration = 7000,
+                        Style = "min-width: 450px; max-width: 600px; line-height: 1.6; padding: 10px;"
+                    });
+                continue;
+            }
+
+            try
+            {
+
+                using var stream = file.OpenReadStream(maxFileSize);
+                using var memoryStream = new MemoryStream();
+                await stream.CopyToAsync(memoryStream);
+                byte[] fileBytes = memoryStream.ToArray();
+
+                var archivo = new ARCHIVO
+                    {
+                        ARC_NOMBRE = Path.GetFileNameWithoutExtension(file.Name),
+                        ARC_ARCHIVO = fileBytes,
+                        ARC_EXTENSION = fileExtension.TrimStart('.')
+                    };
+                ArchivosMenu.Add(archivo);
+            }
+            catch (Exception ex)
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Error al Procesar Archivo", Detail = $"Error con '{file.Name}': {ex.Message}", Duration = 7000 });
+            }
+        }
+
+    }
+
+    private dynamic Modelo => new
+    {
+        Menu = menuItem,
+        Archivos = ArchivosMenu
+    };
+
+    private void GuardarMenu()
+    {
+        DialogService.Close(Modelo);
+    }
+}

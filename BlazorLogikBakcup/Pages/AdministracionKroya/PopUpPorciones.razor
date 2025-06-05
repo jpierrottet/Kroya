@@ -1,0 +1,196 @@
+﻿@using BlazorProyectoPostres.Models.DatabaseModels
+@using BlazorProyectoPostres.Clases
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+@inject BlazorProyectoPostres.Data.PostresService ServicioPostre
+
+@* Botón para agregar una nueva porción *@
+<RadzenButton Icon="add_circle_outline" Text="Agregar Nueva Porción" Click="@InsertRow" Disabled="@(porcionToInsert != null || porcionToUpdate != null)" class="mb-3" />
+
+<RadzenDataGrid @ref="gridPorciones" AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true"
+Data="@ListaPorcionesMenu" TItem="PORCION"
+EditMode="DataGridEditMode.Single"
+RowUpdate="@OnRowUpdate" RowCreate="@OnRowCreate"
+Sort="@Reset" Page="@Reset" Filter="@Reset" Density="Density.Compact">
+    <Columns>
+        <RadzenDataGridColumn TItem="PORCION" Property="POR_ID" Title="ID" Width="80px" Frozen="true" TextAlign="TextAlign.Center" />
+
+        <RadzenDataGridColumn TItem="PORCION" Property="POR_NOMBRE" Title="Nombre">
+            <EditTemplate Context="porcion">
+                <RadzenTextBox @bind-Value="porcion.POR_NOMBRE" Style="width:100%" Name="PorNombre" />
+                <RadzenRequiredValidator Text="Nombre es requerido" Component="PorNombre" Popup="true" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="PORCION" Property="POR_CANTIDAD" Title="Cantidad">
+            <EditTemplate Context="porcion">
+                <RadzenTextBox @bind-Value="porcion.POR_CANTIDAD" Style="width:100%" Name="PorCantidad" />
+                <RadzenRequiredValidator Text="Cantidad es requerida" Component="PorCantidad" Popup="true" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="PORCION" Property="POR_PRECIO" Title="Precio" FormatString="{0:C}" TextAlign="TextAlign.Right">
+            <EditTemplate Context="porcion">
+                <RadzenNumeric TValue="decimal?" @bind-Value="porcion.POR_PRECIO" Placeholder="0.00" Style="width:100%" Name="PorPrecio" Format="0.00" ShowUpDown="false" />
+                <RadzenRequiredValidator Text="Precio es requerido" Component="PorPrecio" Popup="true" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="PORCION" Context="porcion" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="180px" Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
+            <Template Context="p">
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Small"
+                Click="@(args => EditRow(p))" @onclick:stopPropagation="true" Disabled="@(porcionToInsert != null || porcionToUpdate != null && porcionToUpdate != p)" />
+                <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" Variant="Variant.Flat" Size="ButtonSize.Small" Shade="Shade.Lighter"
+                Click="@(args => DeleteRow(p))" @onclick:stopPropagation="true" Disabled="@(porcionToInsert != null || porcionToUpdate != null)" />
+            </Template>
+            <EditTemplate Context="p">
+                <RadzenButton Icon="save" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Small"
+                Click="@(args => SaveRow(p))" />
+                <RadzenButton Icon="cancel" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Small"
+                Click="@(args => CancelEdit(p))" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    [Parameter]
+    public int idMenu { get; set; } // Este es el ID del menú al que pertenecen estas porciones
+
+    protected Radzen.Blazor.RadzenDataGrid<PORCION> gridPorciones = default!;
+    protected List<PORCION> ListaPorcionesMenu = new List<PORCION>();
+
+    // Variables para manejar el estado de edición/inserción
+    protected PORCION? porcionToInsert;
+    protected PORCION? porcionToUpdate;
+    private PORCION? originalPorcionToUpdate; // Para restaurar en caso de cancelación
+
+    protected bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarPorciones();
+    }
+
+    private async Task CargarPorciones()
+    {
+        isLoading = true;
+        ListaPorcionesMenu = await ServicioPostre.ObtenerPorcionesMenu(idMenu);
+        isLoading = false;
+        StateHasChanged(); 
+    }
+
+
+
+
+    protected async Task EditRow(PORCION porcion)
+    {
+        originalPorcionToUpdate = new PORCION
+            {
+                POR_ID = porcion.POR_ID,
+                POR_NOMBRE = porcion.POR_NOMBRE,
+                POR_CANTIDAD = porcion.POR_CANTIDAD,
+                POR_PRECIO = porcion.POR_PRECIO,
+                POR_MENU = porcion.POR_MENU
+            };
+        porcionToUpdate = porcion; 
+        await gridPorciones.EditRow(porcion);
+    }
+
+    // Método para guardar la fila (ya sea nueva o editada)
+    protected async Task SaveRow(PORCION porcion)
+    {
+        await gridPorciones.UpdateRow(porcion);
+    }
+
+    // Método para guardar los cambios de una fila (actualización)
+    protected async Task OnRowUpdate(PORCION porcion)
+    {
+        if (porcion == porcionToInsert) 
+        {
+            porcionToInsert = null;
+        }
+        porcionToUpdate = null; 
+        originalPorcionToUpdate = null; 
+   
+        await ServicioPostre.ActualizarPorcion(porcion);
+        await CargarPorciones();
+        await gridPorciones.Reload(); 
+        FuncionesGenerales.Notificacion(NotificationService, "Porción Actualizada Correctamente", NotificationSeverity.Success);
+
+    }
+
+    // Método para guardar una nueva fila (creación)
+    protected async Task OnRowCreate(PORCION porcion)
+    {
+        porcion.POR_MENU = idMenu;
+
+        await ServicioPostre.AgregarPorcion(porcion);
+
+        FuncionesGenerales.Notificacion(NotificationService, "Porción Agregada correctamente.", NotificationSeverity.Success);
+        await CargarPorciones(); 
+
+
+        porcionToInsert = null; 
+        await gridPorciones.Reload();
+    }
+
+
+
+
+    // Método para cancelar la edición de una fila
+    protected void CancelEdit(PORCION porcion)
+    {
+        if (porcion == porcionToInsert)
+        {
+            porcionToInsert = null;
+
+            gridPorciones.Reload(); // Recargar el grid
+        }
+        else if (originalPorcionToUpdate != null && porcionToUpdate == porcion) // Si se cancela la edición de una porción existente
+        {
+            // Restaurar los valores originales del objeto
+            porcion.POR_NOMBRE = originalPorcionToUpdate.POR_NOMBRE;
+            porcion.POR_CANTIDAD = originalPorcionToUpdate.POR_CANTIDAD;
+            porcion.POR_PRECIO = originalPorcionToUpdate.POR_PRECIO;
+            // No es necesario restaurar POR_ID ni POR_MENU si no son editables en esta UI
+
+            porcionToUpdate = null; // Limpiar la variable de actualización
+            originalPorcionToUpdate = null; // Limpiar la copia original
+            gridPorciones.Reload(); // Recargar para asegurar que se muestren los datos originales
+        }
+    }
+
+    // Método para eliminar una fila
+    protected async Task DeleteRow(PORCION porcion)
+    {
+        var confirmacion = await DialogService.Confirm($"¿Está seguro de que desea eliminar la porción '{porcion.POR_NOMBRE}'?", "Confirmar Eliminación", new ConfirmOptions() { OkButtonText = "Sí", CancelButtonText = "No" });
+        if (confirmacion == true)
+        {
+            await ServicioPostre.EliminarPorcion(porcion);
+            ListaPorcionesMenu.Remove(porcion); 
+            await gridPorciones.Reload();
+            FuncionesGenerales.Notificacion(NotificationService, "Porción eliminada correctamente.", NotificationSeverity.Success);
+
+        }
+    }
+
+    // Método para preparar la inserción de una nueva fila
+    protected async Task InsertRow()
+    {
+        if (porcionToInsert == null && porcionToUpdate == null) // Solo permitir insertar si no hay otra operación en curso
+        {
+            porcionToInsert = new PORCION();
+            porcionToInsert.POR_MENU = idMenu; // Pre-asignar el idMenu
+            await gridPorciones.InsertRow(porcionToInsert); // Esto pone el grid en modo de creación para la nueva fila
+        }
+    }
+
+    // Método para resetear el estado de edición cuando se ordena, pagina o filtra
+    void Reset()
+    {
+        porcionToInsert = null;
+        porcionToUpdate = null;
+        originalPorcionToUpdate = null;
+    }
+}

@@ -1,0 +1,23 @@
+﻿@layout PanelMenuLayout
+
+
+@inherits LayoutComponentBase
+
+
+<div class="main">
+
+    <div>
+        @Body
+        <hr />
+        <Footer />
+    </div>
+</div>
+
+<!-- LoadingPanel simulado -->
+<div id="loading-panel" class="loading-panel d-none">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Cargando...</span>
+    </div>
+</div>
+
+
