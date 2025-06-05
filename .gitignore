@@ -1,0 +1,14 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Carpetas de compilación de .NET
+obj/
+bin/
+
+# Archivos generados por el build (como el sourcelink.json que se ve)
+# Normalmente ignorar obj/ y bin/ es suficiente, pero si aparecen en otros lados:
+*.sourcelink.json
