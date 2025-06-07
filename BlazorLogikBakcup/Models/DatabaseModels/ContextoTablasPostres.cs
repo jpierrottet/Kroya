@@ -157,7 +157,6 @@ public partial class ContextoTablasPostres : DbContext
             entity.Property(e => e.MEN_NOMBRE)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.MEN_PRECIO).HasColumnType("decimal(16, 8)");
         });
 
         modelBuilder.Entity<PORCION>(entity =>

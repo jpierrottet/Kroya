@@ -13,8 +13,6 @@ public partial class MENU
 
     public bool MEN_ESTADO { get; set; }
 
-    public decimal? MEN_PRECIO { get; set; }
-
     public virtual ICollection<ARCHIVO_POSTRE> ARCHIVO_POSTREs { get; set; } = new List<ARCHIVO_POSTRE>();
 
     public virtual ICollection<PORCION> PORCIONs { get; set; } = new List<PORCION>();

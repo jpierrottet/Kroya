@@ -1,4 +1,5 @@
 ﻿@page "/Administracion/MenuPostres"
+@attribute [Authorize]
 @layout PanelMenuLayout
 @using BlazorProyectoPostres.Data
 @using BlazorProyectoPostres.Constantes
@@ -34,12 +35,6 @@
             <RadzenDataGridColumn TItem="MENU" Property="MEN_DESCRIPCION" Title="Descripcion">
                 <EditTemplate Context="menuItem">
                     <RadzenTextBox @bind-Value="menuItem.MEN_DESCRIPCION" Style="width:100%" Name="MenDescripcion" />
-                </EditTemplate>
-            </RadzenDataGridColumn>
-
-            <RadzenDataGridColumn TItem="MENU" Property="MEN_PRECIO" Title="Precio">
-                <EditTemplate Context="menuItem">
-                    <RadzenNumeric TValue="decimal?" @bind-Value="menuItem.MEN_PRECIO" Name="MEN_PRECIO"  Style="width: 100%;" ShowUpDown="false" Format="0.00" />
                 </EditTemplate>
             </RadzenDataGridColumn>
 

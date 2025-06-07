@@ -6,10 +6,18 @@
 <div class="admin-sidebar-column">
     <RadzenMenu Click="@(args => NavigateTo(args.Path))">
         <RadzenMenuItem Text="Inicio" Path="/" Icon="home" />
-        <RadzenMenuItem Text="Administración KROYA" Path="/Administracion/MenuPostres" Icon="admin_panel_settings" />
         <RadzenMenuItem Text="Nuestros Postres" Path="/MenuPrincipal" Icon="cake" />
-        <RadzenMenuItem Text="Haz tu Pedido" Path="/pedidos" Icon="shopping_cart" />
         <RadzenMenuItem Text="Contáctanos" Path="/contacto" Icon="email" />
+
+        @*<RadzenMenuItem Text="Haz tu Pedido" Path="/pedidos" Icon="shopping_cart" />*@
+
+        <AuthorizeView>
+            <Authorized>
+
+                <RadzenMenuItem Text="Administración KROYA" Path="/Administracion/MenuPostres" Icon="admin_panel_settings" />
+
+            </Authorized>
+        </AuthorizeView>
     </RadzenMenu>
 </div>
 

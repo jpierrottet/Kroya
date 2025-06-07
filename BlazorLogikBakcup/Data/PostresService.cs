@@ -56,7 +56,6 @@ namespace BlazorProyectoPostres.Data
             {
                 MenuEditar.MEN_NOMBRE = menu.MEN_NOMBRE;
                 MenuEditar.MEN_DESCRIPCION = menu.MEN_DESCRIPCION;
-                MenuEditar.MEN_PRECIO = menu.MEN_PRECIO;
                 if (ArchivosMenu.Any())
                 {
                     foreach (var Archivo in ArchivosMenu)
@@ -124,7 +123,6 @@ namespace BlazorProyectoPostres.Data
                 {
                     NombreMenu = a.Key.MEN_NOMBRE,
                     Descripcion = a.Key.MEN_DESCRIPCION,
-                    Precio = a.Key.MEN_PRECIO.Value,
                     Imagenes = a.Select(b => b.ARP_ARCHIVONavigation.ARC_ARCHIVO).ToList(),
                     Porciones = a.Key.PORCIONs.ToList()
 

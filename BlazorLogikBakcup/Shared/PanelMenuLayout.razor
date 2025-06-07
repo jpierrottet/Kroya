@@ -8,10 +8,14 @@
 
         <RadzenPanelMenu class="styled-panel-menu">
             <RadzenPanelMenuItem Text="Inicio" Path="/" Icon="home" />
-            <RadzenPanelMenuItem Text="Administración KROYA" Path="/Administracion/MenuPostres" Icon="admin_panel_settings" />
+            <AuthorizeView>
+                <Authorized>
+                    <RadzenPanelMenuItem Text="Administración KROYA" Path="/Administracion/MenuPostres" Icon="admin_panel_settings" />
+                </Authorized>
+            </AuthorizeView>
             <RadzenPanelMenuItem Text="Nuestros Postres" Path="/MenuPrincipal" Icon="cake" />
             <RadzenPanelMenuItem Text="Haz tu Pedido" Path="/pedidos" Icon="shopping_cart" />
-            <RadzenPanelMenuItem Text="Contáctanos" Path="/contacto" Icon="email" />
+            <RadzenPanelMenuItem Text="Contáctanos" Path="/Contacto" Icon="email" />
         </RadzenPanelMenu>
     </div>
 

@@ -71,6 +71,13 @@ namespace BlazorProyectoPostres
                 options.Cookie.HttpOnly = true;
                 options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
                 options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
+                options.LoginPath = "/Identity/Account/Login";
+
+            
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+
+   
+                options.LogoutPath = "/Identity/Account/Logout";
             });
 
  

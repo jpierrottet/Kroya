@@ -25,12 +25,7 @@
                     <RadzenTextArea @bind-Value="menuItem.MEN_DESCRIPCION" Name="MEN_DESCRIPCION" Placeholder="Ej: Deliciosa torta de chocolate con cobertura de fudge y chispas." Style="width: 100%;" Rows="3" />
                     <RadzenRequiredValidator Component="MEN_DESCRIPCION" Text="La descripción es requerida" Popup="true" Style="position: relative;" />
                 </div>
-                <div>
-                    <RadzenLabel Text="Precio" Component="MEN_PRECIO" Style="font-weight: bold; color: var(--purple-text-dark); margin-bottom: 0.70rem; display: block;" />
-                    <RadzenNumeric TValue="decimal?" @bind-Value="menuItem.MEN_PRECIO" Name="MEN_PRECIO" Placeholder="Ej: 2.50" Style="width: 100%;" ShowUpDown="false" Format="0.00" />
-
-                    <RadzenRequiredValidator Component="MEN_PRECIO" Text="El precio es requerido" Popup="true" Style="position: relative;" />
-                </div>
+                
                 <div>
                     <RadzenLabel Text="Imágenes del Ítem" Component="uploadImagenes" Style="font-weight: bold; color: var(--purple-text-dark); margin-bottom: 0.70rem; display: block;" />
                     <RadzenUpload Multiple="true"
