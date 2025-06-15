@@ -3,7 +3,7 @@
 @inject NavigationManager Navigation
 @layout PanelMenuLayout
 
-<div class="admin-sidebar-column">
+<div>
     <RadzenMenu Click="@(args => NavigateTo(args.Path))">
         <RadzenMenuItem Text="Inicio" Path="/" Icon="home" />
         <RadzenMenuItem Text="Nuestros Postres" Path="/MenuPrincipal" Icon="cake" />
@@ -23,22 +23,9 @@
 
 
 
+<div style="position: relative; width: 100%; height: 100vh; background-image: url('images/Imagenes/ImagenLandingPage.png'); background-size: cover; background-position: center; color: white;">
 
 
-<div class="simple-landing-container">
-    <div class="content-wrapper">
-        <h1 class="brand-name">KROYA</h1>
-        <p class="slogan">Donde el Horno, Enciende Memorias</p>
-    </div>
-    <div class="background-shapes">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
 </div>
 
 @code {

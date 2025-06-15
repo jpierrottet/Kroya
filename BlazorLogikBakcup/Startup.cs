@@ -16,6 +16,7 @@ using Radzen;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using MudBlazor.Services;
 
 namespace BlazorProyectoPostres
 {
@@ -44,7 +45,7 @@ namespace BlazorProyectoPostres
             services.AddScoped<PostresService>();
             services.AddScoped<DialogService>();
 
-
+            services.AddMudServices();
 
             services.AddDbContext<IdentityModels>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
