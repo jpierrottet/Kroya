@@ -1,39 +1,9 @@
-﻿@page "/"
-@inject IJSRuntime JSRuntime
-@inject NavigationManager Navigation
-@layout PanelMenuLayout
+﻿@layout MainLayout
 
-<div>
-    <RadzenMenu Click="@(args => NavigateTo(args.Path))">
-        <RadzenMenuItem Text="Inicio" Path="/" Icon="home" />
-        <RadzenMenuItem Text="Nuestros Postres" Path="/MenuPrincipal" Icon="cake" />
-        <RadzenMenuItem Text="Contáctanos" Path="/contacto" Icon="email" />
-
-        @*<RadzenMenuItem Text="Haz tu Pedido" Path="/pedidos" Icon="shopping_cart" />*@
-
-        <AuthorizeView>
-            <Authorized>
-
-                <RadzenMenuItem Text="Administración KROYA" Path="/Administracion/MenuPostres" Icon="admin_panel_settings" />
-
-            </Authorized>
-        </AuthorizeView>
-    </RadzenMenu>
-</div>
+@page "/"
 
 
-
-<div style="position: relative; width: 100%; height: 100vh; background-image: url('images/Imagenes/ImagenLandingPage.png'); background-size: cover; background-position: center; color: white;">
-
+<div class="landing-page-background">
 
 </div>
 
-@code {
-    private void NavigateTo(string path)
-    {
-        if (!string.IsNullOrEmpty(path))
-        {
-            Navigation.NavigateTo(path);
-        }
-    }
-}

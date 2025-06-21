@@ -1,0 +1,26 @@
+﻿/* --- ESTILOS POR DEFECTO Y PARA PANTALLAS GRANDES --- */
+.landing-page-background {
+    width: 100%;
+    height: calc(100vh - 64px);
+    color: white;
+    /* Usamos tu imagen panorámica original */
+    background-image: url('/images/Imagenes/ImagenLandingPage.png');
+    /* Cover es la opción correcta para llenar el espacio */
+    background-size: cover;
+    /* Esto es clave: nos aseguramos de que el centro de la imagen siempre sea visible */
+    background-position: center center;
+    /* Evita que la imagen se repita si algo falla */
+    background-repeat: no-repeat;
+}
+
+/* --- ESTILOS PARA PANTALLAS PEQUEÑAS (MÓVILES) --- */
+@media (max-width: 599px) {
+    .landing-page-background {
+        height: calc(100vh - 56px);
+        /* ¡AQUÍ ESTÁ LA MAGIA!
+           Cambiamos a la imagen que preparaste específicamente para móviles.
+           Si aún no la has creado, puedes comentar esta línea para seguir
+           usando la de escritorio mientras tanto. */
+        background-image: url('/images/Imagenes/ImagenLandingPage-Mobile.png');
+    }
+}

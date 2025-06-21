@@ -1,13 +1,41 @@
-﻿@using Radzen
-@using Radzen.Blazor
+﻿@using MudBlazor
 
-<RadzenMenu Orientation="Horizontal" Style="background-color: #f8f9fa; padding: 0.5rem 1rem;">
-    <RadzenMenuItem Text="Kroya" Path="/" Icon="home" />
-    <RadzenMenuItem Text="Inicio" Path="/" Icon="home" />
-    <RadzenMenuItem Text="Productos"
-                    Path="/fetchdata"
-                    Icon="shopping_cart"
-                    Target="_blank" />
+<MudNavMenu>
 
-    <RadzenMenuItem Text="Contacto" Path="/contacto" Icon="email" />
-</RadzenMenu>
+    <MudButton Href="/"
+               Variant="MudBlazor.Variant.Text"
+               FullWidth="true"
+               Style="color: #373737; justify-content: flex-start; text-transform: none; margin-bottom: 4px;">
+        <MudIcon Icon="@Icons.Material.Filled.Home" Style="color: #373737; margin-right: 16px;" />
+        Inicio
+    </MudButton>
+
+    <AuthorizeView>
+        <Authorized>
+            <MudButton Href="/Administracion/MenuPostres"
+                       Variant="MudBlazor.Variant.Text"
+                       FullWidth="true"
+                       Style="color: #373737; justify-content: flex-start; text-transform: none; margin-bottom: 4px;">
+                <MudIcon Icon="@Icons.Material.Filled.SettingsAccessibility" Style="color: #373737; margin-right: 16px;" />
+                Administración KROYA
+            </MudButton>
+        </Authorized>
+    </AuthorizeView>
+
+    <MudButton Href="/MenuPrincipal"
+               Variant="MudBlazor.Variant.Text"
+               FullWidth="true"
+               Style="color: #373737; justify-content: flex-start; text-transform: none; margin-bottom: 4px;">
+        <MudIcon Icon="@Icons.Material.Filled.Cake" Style="color: #373737; margin-right: 16px;" />
+        Nuestros Postres
+    </MudButton>
+
+    <MudButton Href="/Contacto"
+               Variant="MudBlazor.Variant.Text"
+               FullWidth="true"
+               Style="color: #373737; justify-content: flex-start; text-transform: none;">
+        <MudIcon Icon="@Icons.Material.Filled.Email" Style="color: #373737; margin-right: 16px;" />
+        Contacto
+    </MudButton>
+
+</MudNavMenu>

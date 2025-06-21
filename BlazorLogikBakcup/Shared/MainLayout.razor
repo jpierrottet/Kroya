@@ -1,23 +1,42 @@
-﻿@layout PanelMenuLayout
-
-
+﻿
 @inherits LayoutComponentBase
 
 
-<div ">
+@using MudBlazor
 
-    <div>
-        @Body
-        <hr />
-        <Footer />
-    </div>
-</div>
 
-<!-- LoadingPanel simulado -->
-<div id="loading-panel" class="loading-panel d-none">
-    <div class="spinner-border" role="status">
-        <span class="visually-hidden">Cargando...</span>
-    </div>
-</div>
+
+<MudLayout>
+    <MudAppBar Style="@($"Background:#d9d2e9;")"  Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+
+        <MudSpacer />  <img src="/images/Imagenes/LogoKroyaSinFondo.png" alt="Logo de la Empresa" style="height: 80px;" />
+
+        <MudSpacer />  <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+    </MudAppBar>
+
+    <MudDrawer Style="background-color: #d9d2e9; color: #373737" @bind-Open="_drawerOpen" Elevation="2">
+        <NavMenu />
+    </MudDrawer>
+
+    <MudMainContent>
+        <div class="pa-4">
+            @Body
+        </div>
+    </MudMainContent>
+</MudLayout>
+
+
+
+
+
+@code {
+    private bool _drawerOpen = false;
+
+    private void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
 
 
